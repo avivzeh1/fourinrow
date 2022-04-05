@@ -1,0 +1,198 @@
+﻿<Window x:Class="grpcClient.SearchWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:grpcClient"
+        mc:Ignorable="d"
+        Title="SearchWindow" Height="520" Width="500" Initialized="Window_Initialized"
+        ResizeMode="NoResize">
+    <Grid Name="mainGrid">
+        <Grid.Resources>
+            <DataTemplate x:Key="UserTemplate" DataType="UserModel">
+                <Border BorderBrush="Red" BorderThickness="2" >
+                    <Grid Name="templateGrid" Margin="2" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.2*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.Resources>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Right"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                            </Style>
+                        </Grid.Resources>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Margin="2" HorizontalAlignment="Left" Text="{Binding Path=GamesPlayed}" />
+                        <TextBlock Grid.Row="1" Text="Games played: " />
+                        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="2" Text="{Binding Path=Username}"/>
+                        <TextBlock Text="Username: " />
+                        <TextBlock Text="Games Won: " Grid.Row="2" />
+                        <TextBlock  Grid.Row="2" Margin="2" HorizontalAlignment="Left" Grid.Column="1" Text="{Binding Path=GamesWon}"/>
+                        <TextBlock Text="Games Lost: "  Grid.Row="3"/>
+                        <TextBlock  Grid.Column="1" Margin="2" HorizontalAlignment="Left" Grid.Row="3" Text="{Binding Path=GamesLose}"/>
+                    </Grid>
+                </Border>
+            </DataTemplate>
+            <DataTemplate x:Key="GamePlayedTemplate" DataType="GameModel">
+                <Border BorderBrush="Red" BorderThickness="2" >
+                    <Grid Name="templateGrid" Margin="2" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.Resources>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Right"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                            </Style>
+                        </Grid.Resources>
+                        <TextBlock  Margin="2" HorizontalAlignment="Center" Text="{Binding Path=Player1}" />
+                        <TextBlock  Grid.Column="1" Text="VS" HorizontalAlignment="Center" />
+                        <TextBlock Grid.Column="2" HorizontalAlignment="Center" Margin="2" Text="{Binding Path=Player2}"/>
+                        <TextBlock Text="Winner: " Grid.Row="2" HorizontalAlignment="Center"/>
+                        <TextBlock Name="tbWinner" Grid.Row="2" Grid.Column="1" Margin="2" HorizontalAlignment="Center" Text="{Binding Path=Winner}"/>
+                        <TextBlock Name="tbPoints1"  Margin="2" HorizontalAlignment="Center" Grid.Row="1" Text="{Binding Path=PointsPlayerStarted}"/>
+                        <TextBlock Name="tbPoints2" Grid.Column="2" Margin="2" HorizontalAlignment="Center" Grid.Row="1" Text="{Binding Path=PointsPlayer2}"/>
+                        <TextBlock Text="Date: " Grid.Row="3" HorizontalAlignment="Center"/>
+                        <TextBlock Name="tbDate"  Margin="2" HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1" Text="{Binding Path=Date}"/>
+                    </Grid>
+                </Border>
+            </DataTemplate>
+            <DataTemplate x:Key="CurrentGameTemplate" DataType="GameModel">
+                <Border BorderBrush="Red" BorderThickness="2" >
+                    <Grid Name="templateGrid" Margin="2" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.Resources>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Right"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                            </Style>
+                        </Grid.Resources>
+                        <TextBlock  Margin="2" HorizontalAlignment="Center" Text="{Binding Path=Player1}" />
+                        <TextBlock  Grid.Column="1" Text="VS" HorizontalAlignment="Center" />
+                        <TextBlock Grid.Column="2" HorizontalAlignment="Center" Margin="2" Text="{Binding Path=Player2}"/>
+                        <TextBlock Text="Time: " Grid.Row="1" HorizontalAlignment="Center"/>
+                        <TextBlock Name="tbDate"  Margin="2" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" Text="{Binding Path=Date}"/>
+                    </Grid>
+                </Border>
+            </DataTemplate>
+            <DataTemplate x:Key="UserDataTemplate" DataType="UserData">
+                <Border BorderBrush="Red" BorderThickness="2" >
+                    <Grid Name="templateGrid" Margin="2" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.2*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.Resources>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Right"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                            </Style>
+                        </Grid.Resources>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Margin="2" HorizontalAlignment="Left" Text="{Binding Path=NumberOfGames}" />
+                        <TextBlock Grid.Row="1" Text="Games played: " />
+                        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="2" Text="{Binding Path=Username}"/>
+                        <TextBlock Text="Username: " />
+                        <TextBlock Text="Games Won: " Grid.Row="2" />
+                        <TextBlock  Grid.Row="2" Margin="2" HorizontalAlignment="Left" Grid.Column="1" Text="{Binding Path=NumberOfWinnings}"/>
+                        <TextBlock Text="Win Percentage: "  Grid.Row="3"/>
+                        <TextBlock Grid.Column="1" Margin="2" HorizontalAlignment="Left" Grid.Row="3" Text="{Binding Path=WinPercentage}"/>
+                        <TextBlock Text="Points: "  Grid.Row="4"/>
+                        <TextBlock Grid.Column="1" Margin="2" HorizontalAlignment="Left" Grid.Row="4" Text="{Binding Path=Points}"/>
+                    </Grid>
+                </Border>
+            </DataTemplate>
+            <DataTemplate x:Key="PercentageTemplate" DataType="PercentageModel">
+                <Border BorderBrush="Red" BorderThickness="2" >
+                    <Grid Name="templateGrid" Margin="2" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.Resources>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Right"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                            </Style>
+                        </Grid.Resources>
+                        <TextBlock  Margin="2" HorizontalAlignment="Center" Text="{Binding Path=Player1}" />
+                        <TextBlock  Grid.Column="1" Text="VS" HorizontalAlignment="Center" />
+                        <TextBlock Grid.Column="2" HorizontalAlignment="Center" Margin="2" Text="{Binding Path=Player2}"/>
+                        <TextBlock Grid.Row="1" HorizontalAlignment="Center" Margin="2" Text="{Binding Path=Percentage1}"/>
+                        <TextBlock Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" Margin="2" Text="{Binding Path=Percentage2}"/>
+                    </Grid>
+                </Border>
+            </DataTemplate>
+        </Grid.Resources>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+                <Button  Content="Show all players"  Width="137" Click="buttonShowAllPlayers_Click" Margin="5"></Button>
+            <Label Grid.Column="1" Content="Sort by: " VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"></Label>
+                <ComboBox Name="sortPlayersBy" Grid.Column="1" Grid.ColumnSpan="2" SelectionChanged="sortPlayersChangeHandler" Margin="60,15,30,17"></ComboBox>
+                <Button  Content="Show all games played" Grid.Row="1" Width="137" Click="buttonShowAllGamesPlayed_Click" Margin="5"></Button>
+                <Button  Content="Show current games" Grid.Row="1" Grid.Column="1" Width="137" Click="buttonShowCurrentGames_Click" Margin="5"></Button>
+            <Label Grid.Column="2" Grid.Row="2" Content="Connected players: " VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="5,0,0,0"></Label>
+            <ListBox Name="lbPlayers" Grid.Row="3" Grid.Column="2" Grid.RowSpan="3" Margin="10,10,15,110" SelectionMode="Multiple" ></ListBox>
+            <ListBox Name="lbPercentage" Grid.Row="2"  Grid.ColumnSpan="2" Margin="10,0,10,0" ItemsSource="{Binding}" 
+                          ItemTemplate="{StaticResource PercentageTemplate}" HorizontalContentAlignment="Stretch"></ListBox>
+            <Button Content="Data of selected player/s" Grid.Row="5" Grid.Column="3" Width="140" Click="buttonlbPlayers_Click" Margin="0,30,0,30"/>
+            <ListBox Name="lbData" Margin="10" Height="280" Grid.Row="3" Grid.ColumnSpan="2" Grid.RowSpan="3"
+                                      ItemsSource="{Binding}" 
+                          ItemTemplate="{StaticResource UserTemplate}"
+                          HorizontalContentAlignment="Stretch">
+            </ListBox>
+        </Grid>
+
+    </Grid>
+</Window>

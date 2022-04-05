@@ -1,0 +1,118 @@
+syntax = "proto3";
+
+option csharp_namespace = "grpc4InRowService";
+
+package fourinrow;
+
+service Fourinrow {
+  rpc Connect (UserInfo) returns (stream GameRequest);
+  rpc ConnectGame (UserInfo) returns (stream Move);
+  rpc Disconnect (UserInfo) returns (Empty);
+  rpc DisconnectGame (UserInfo) returns (Empty);
+  rpc Insert (UserModel) returns (Empty);
+  rpc SendRequest (GameRequest) returns (Empty);
+  rpc SetWinner(GameResult) returns (Empty);
+  rpc Play (Move) returns (Empty);
+  rpc AddGame (GameModel) returns (Empty);
+  rpc UserNotExists (UserInfo) returns (Empty);
+  rpc UserExists (UserInfo) returns (Empty);
+  rpc ValidUser (UserInfo) returns (Empty);
+  rpc UpdateUsers (Empty) returns (Users);
+  rpc GetUsersStatistics(Empty) returns (UsersModel);
+  rpc GetGamesPlayedStatistics(Empty) returns (GamesModel);
+  rpc GetCurrentGamesStatistics(Empty) returns (GamesModel);
+  rpc GetUserData(UserInfo) returns (UserData);
+  rpc GetDuelData(GameModel) returns (GamesModel);
+  rpc IsOutOfSystem(UserInfo) returns (BoolModel);
+}
+
+message Empty{}
+
+message BoolModel{
+	bool answer = 1;
+}
+message UserModel{
+
+	string username = 2;
+	string password = 3;
+	int32 gamesPlayed = 4;
+	int32 gamesWon = 5;
+	int32 gamesLose = 6;
+	int32 points = 7;
+}
+message UsersModel{
+	repeated UserModel players = 1;
+}
+message GameModel{
+
+	string player1 = 1;
+	string player2 = 2;
+	string winner = 3;
+ 	int32 pointsPlayerStarted = 4;
+	int32 pointsPlayer2 = 5;
+	string date = 6;
+	string winPercentage = 7;
+}
+
+message GamesModel{
+	repeated GameModel games = 1;
+}
+message UserInfo {
+  string userName = 1;
+  string password = 2;
+}
+message UserData{
+	string username = 1;
+	int32 numberOfGames = 2;
+	int32 numberOfWinnings = 3;
+	string winPercentage = 4;
+	int32 points = 5;
+}
+message GameResult{
+	string winner = 1;
+	string playerStarted = 2;
+	string player2 = 3;
+	int32 pointsPlayerStarted = 4;
+	int32 pointsPlayer2 = 5;
+	int32 cellsFilled = 6;
+}
+
+enum MessageType{
+	REQUEST = 0;  // request was sent
+	UPDATE = 1;  // user log in or logged out
+	ACCEPTED = 2;  // request accepted
+	DECLINED = 3;  // request declined
+}
+
+enum MoveType{
+	PLAY = 0;  // move in the game
+	RETIRE = 1; // a player retired from a game
+	DISCONNECT = 2;  // a player disconnected from the system while playing
+	UPDATEPLAYERS = 3; // request that the player sent was declined while playing
+}
+
+message GameRequest {
+  MessageType type = 1;
+  string fromUser = 2;
+  string toUser = 3;
+}
+
+message Move {
+  MoveType type = 6;
+  string player = 1; // the player who execute the move
+  string against = 2; // the rival
+  int32 col = 3; // picked column on board
+  int32 x = 4; // cordinate for animation
+  int32 y = 5; // cordinate for animation
+}
+
+message Users{
+	repeated string userNames = 1;
+}
+
+message PercentageModel{  // for data template
+	string player1 = 1;
+	string player2 = 2;
+	string percentage1 = 3;
+	string percentage2 = 4;
+}
